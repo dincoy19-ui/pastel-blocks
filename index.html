@@ -30,7 +30,7 @@ function paintNext(){n.clearRect(0,0,88,76);let m=next.m,s=17,ox=(88-m[0].length
 function stats(){for(let [id,val] of Object.entries({score,best,level,lines}))document.querySelector('#'+id).textContent=val}
 function spawn(){p=next||pick();next=pick();paintNext();if(hit(p))finish()}
 function lock(){for(let y=0;y<p.m.length;y++)for(let x=0;x<p.m[y].length;x++)if(p.m[y][x]){let yy=p.y+y;if(yy<0){finish();return}grid[yy][p.x+x]=colors[p.t]}
-let count=0;for(let y=H-1;y>=0;){if(grid[y].every(Boolean)){grid.splice(y,1);grid.unshift(Array(W).fill(null));count++}else y++}
+let count=0;for(let y=H-1;y>=0;){if(grid[y].every(Boolean)){grid.splice(y,1);grid.unshift(Array(W).fill(null));count++}else y--}
 if(count){lines+=count;score+=[0,100,300,500,800][count]*level;level=1+Math.floor(lines/10);if(score>best){best=score;try{localStorage.setItem('pastelBlocksBest',best)}catch(e){}}}stats();spawn()}
 function tick(t=0){if(!running||paused||ended)return;drop+=t-last;last=t;if(drop>Math.max(100,850-(level-1)*65)){if(!hit(p,0,1))p.y++;else lock();drop=0}paint();raf=requestAnimationFrame(tick)}
 function overlay(title,msg){let o=document.querySelector('#overlay');o.innerHTML='<strong>'+title+'</strong><span>'+msg+'</span>';o.classList.remove('hidden')}
