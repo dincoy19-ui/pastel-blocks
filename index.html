@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#fff8fa"><title>Pastel Blocks</title>
+<style>
+:root{--ink:#705f78;--pink:#f5bfd0;--lav:#cec3f2;--mint:#bce6d5;--blue:#b9dcf2}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:18px 12px 28px;background:radial-gradient(circle at 10% 5%,#ffe5ed,transparent 32%),radial-gradient(circle at 90% 15%,#e9e3ff,transparent 30%),#fffaf5;color:var(--ink);font-family:system-ui,sans-serif;display:flex;justify-content:center}.app{width:min(100%,440px);text-align:center}h1{font-size:32px;margin:4px 0;color:#98799d}.sub{font-size:13px;margin:0 0 14px;color:#a18ba2}.panel{background:#ffffffd9;border:2px solid #f0dce7;border-radius:24px;padding:13px;box-shadow:0 8px 24px #b58ba51a}.top{display:grid;grid-template-columns:1fr 104px;gap:10px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}.stat{background:#fff3f7;border:1px solid #f4dce6;border-radius:15px;padding:8px 4px}.stat small{display:block;font-size:10px;letter-spacing:1px;color:#aa8c9e}.stat strong{font-size:21px}.nextbox{background:#f6f2ff;border:1px solid #e4dcfa;border-radius:15px;padding:7px}.nextbox small{font-size:10px;color:#9b8bb9}#next{display:block;margin:auto}.board-wrap{position:relative;margin:12px auto 10px;width:min(100%,300px);padding:7px;border-radius:18px;background:linear-gradient(135deg,#f9dce8,#e6e0fb,#d9f2e8)}#board{display:block;width:100%;height:auto;border-radius:12px;background:#fffafc;touch-action:none}.overlay{position:absolute;inset:7px;border-radius:12px;background:#fffaf0ed;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px}.overlay.hidden{display:none}.overlay strong{font-size:25px;color:#98799d}.overlay span{font-size:13px;margin-top:6px}button{border:0;border-radius:15px;padding:11px 15px;font:700 14px system-ui;color:#705f78;background:#f7e3eb;box-shadow:0 3px 0 #e9cbd8;cursor:pointer;touch-action:manipulation}button:active{transform:translateY(2px);box-shadow:0 1px 0 #e9cbd8}.secondary{background:#e9e4fb;box-shadow:0 3px 0 #d2c8ef}.green{background:#dff3e9;box-shadow:0 3px 0 #c3e3d3}.actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:10px}.controls button{font-size:20px;padding:13px 4px}.label{display:block;font-size:9px;letter-spacing:.5px}.help,.footer{font-size:11px;color:#a18ba2;line-height:1.5}.footer{margin-top:12px;color:#b49caf}
+
+.leaderboard{margin:14px auto 0;background:#fff;border:2px solid #f0dce7;border-radius:20px;padding:13px;text-align:left;box-shadow:0 8px 24px #b58ba51a}.leaderboard h2{font-size:18px;text-align:center;color:#98799d;margin:2px 0 4px}.leaderboard .hint{text-align:center;font-size:11px;color:#a18ba2;margin:0 0 10px}.lb-row{display:grid;grid-template-columns:32px 1fr auto;gap:8px;align-items:center;padding:8px 5px;border-bottom:1px solid #f5eaf0;font-size:13px}.lb-row:last-child{border-bottom:0}.lb-rank{font-weight:800;color:#b18ca8}.lb-name{overflow-wrap:anywhere}.lb-score{font-weight:800;color:#806b8c;font-variant-numeric:tabular-nums}.lb-status{font-size:11px;color:#a18ba2;text-align:center;padding:8px}.gameover-form{display:flex;flex-direction:column;gap:8px;width:100%;max-width:240px;margin-top:12px}.gameover-form input{width:100%;border:1px solid #e8d8e7;border-radius:12px;padding:10px;font:14px system-ui;color:#705f78;background:white}.gameover-form button{width:100%}.gameover-form small{font-size:10px;color:#a18ba2}.gameover-form .save-status{font-size:11px;color:#806b8c;min-height:16px}
+</style></head><body><main class="app">
+<h1>🌷 Pastel Blocks 🌷</h1><p class="sub">Susun baloknya, lengkapi barisnya, kumpulkan poin!</p>
+<section class="panel"><div class="top"><div class="stats">
+<div class="stat"><small>SCORE</small><strong id="score">0</strong></div><div class="stat"><small>BEST</small><strong id="best">0</strong></div><div class="stat"><small>LEVEL</small><strong id="level">1</strong></div><div class="stat"><small>LINES</small><strong id="lines">0</strong></div>
+</div><div class="nextbox"><small>NEXT ✨</small><canvas id="next" width="88" height="76"></canvas></div></div>
+<div class="board-wrap"><canvas id="board" width="300" height="600" aria-label="Papan Tetris"></canvas><div class="overlay" id="overlay"><strong>Siap bermain?</strong><span>Tekan Mulai dan nikmati! 💗</span></div></div>
+<div class="actions"><button class="green" id="start">▶ Mulai</button><button class="secondary" id="pause">Ⅱ Jeda</button><button id="restart">↻ Ulang</button></div>
+<div class="controls"><button id="left">◀<span class="label">KIRI</span></button><button id="rotate">⟳<span class="label">PUTAR</span></button><button id="right">▶<span class="label">KANAN</span></button><button id="down">▼<span class="label">TURUN</span></button></div>
+<p class="help">Tekan dan tahan tombol untuk bergerak. Di komputer: ← → ↓, ↑ untuk putar, spasi untuk jatuhkan.</p></section><p class="footer">Dibuat dengan 🍓 dan sedikit strategi</p>
+<section class="leaderboard" aria-live="polite"><h2>🏆 Papan Peringkat</h2><p class="hint">10 skor tertinggi pemain Pastel Blocks</p><div id="leaderboardList" class="lb-status">Memuat papan peringkat...</div></section>
+</main>
+<script>
+(()=>{const cv=document.querySelector('#board'),c=cv.getContext('2d'),nc=document.querySelector('#next'),n=nc.getContext('2d'),W=10,H=20,S=30;
+const SUPABASE_URL='https://xtxjwwvhvufmjhadtkcw.supabase.co';
+const SUPABASE_KEY='sb_publishable_8jSHyeXw75RYOchxwdcLjg_MNQvrvWf';
+const lbEl=document.querySelector('#leaderboardList');let scoreSubmitted=false;
+function safeName(value){return String(value||'').trim().replace(/[<>]/g,'').slice(0,20)}
+async function loadLeaderboard(){
+  lbEl.textContent='Memuat papan peringkat...';
+  try{
+    const res=await fetch(SUPABASE_URL+'/rest/v1/pastel_scores?select=player_name,score&order=score.desc,created_at.asc&limit=10',{headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+SUPABASE_KEY}});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const rows=await res.json();lbEl.replaceChildren();
+    if(!rows.length){lbEl.textContent='Belum ada skor. Jadilah pemain pertama! 🌷';return}
+    rows.forEach((item,i)=>{const row=document.createElement('div');row.className='lb-row';const rank=document.createElement('span');rank.className='lb-rank';rank.textContent=['🥇','🥈','🥉'][i]||String(i+1)+'.';const name=document.createElement('span');name.className='lb-name';name.textContent=item.player_name;const points=document.createElement('span');points.className='lb-score';points.textContent=Number(item.score).toLocaleString('id-ID');row.append(rank,name,points);lbEl.append(row)});
+  }catch(err){lbEl.textContent='Papan peringkat belum bisa dimuat. Periksa koneksi internet lalu muat ulang.';console.error('Leaderboard load:',err)}
+}
+async function submitScore(){
+  const input=document.querySelector('#playerName'),status=document.querySelector('#saveStatus'),btn=document.querySelector('#submitScore');
+  const player_name=safeName(input&&input.value);
+  if(!player_name){status.textContent='Isi nama dulu ya 😊';input&&input.focus();return}
+  if(scoreSubmitted){status.textContent='Skor ini sudah dikirim.';return}
+  btn.disabled=true;status.textContent='Mengirim skor...';
+  try{
+    const res=await fetch(SUPABASE_URL+'/rest/v1/pastel_scores',{method:'POST',headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+SUPABASE_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({player_name,score:Math.max(0,Math.floor(score))})});
+    if(!res.ok){const msg=await res.text();throw new Error('HTTP '+res.status+' '+msg)}
+    scoreSubmitted=true;try{localStorage.setItem('pastelBlocksPlayerName',player_name)}catch(e){}
+    status.textContent='Skor berhasil dikirim! 💗';btn.textContent='Terkirim ✓';await loadLeaderboard();
+  }catch(err){console.error('Leaderboard submit:',err);status.textContent='Belum berhasil. Coba lagi saat koneksi stabil.';btn.disabled=false}
+}
+
+const colors={I:'#b9dcf2',O:'#f6d6a8',T:'#cec3f2',L:'#f5bfd0',J:'#bce6d5',S:'#f5e6a6',Z:'#e9c4dc'};
+const forms={I:[[1,1,1,1]],O:[[1,1],[1,1]],T:[[0,1,0],[1,1,1]],L:[[0,0,1],[1,1,1]],J:[[1,0,0],[1,1,1]],S:[[0,1,1],[1,1,0]],Z:[[1,1,0],[0,1,1]]};
+let grid,bag=[],p,next,score=0,lines=0,level=1,best=0,running=false,paused=false,ended=false,raf=0,last=0,drop=0;
+try{best=+(localStorage.getItem('pastelBlocksBest')||0)}catch(e){}document.querySelector('#best').textContent=best;
+const copy=m=>m.map(r=>r.slice()),empty=()=>Array.from({length:H},()=>Array(W).fill(null));
+function pick(){if(!bag.length){bag=Object.keys(forms);for(let i=bag.length-1;i>0;i--){let j=Math.random()*(i+1)|0;[bag[i],bag[j]]=[bag[j],bag[i]]}}let t=bag.pop();return{t,m:copy(forms[t]),x:Math.floor((W-forms[t][0].length)/2),y:0}}
+function hit(q,dx=0,dy=0,m=q.m){for(let y=0;y<m.length;y++)for(let x=0;x<m[y].length;x++)if(m[y][x]){let a=q.x+x+dx,b=q.y+y+dy;if(a<0||a>=W||b>=H||(b>=0&&grid[b][a]))return true}return false}
+function cell(col,x,y,size,ctx=c){ctx.fillStyle=col;ctx.beginPath();ctx.roundRect(x*size+1,y*size+1,size-2,size-2,5);ctx.fill();ctx.fillStyle='#ffffff70';ctx.beginPath();ctx.roundRect(x*size+4,y*size+4,size-8,Math.max(3,size*.18),3);ctx.fill()}
+function paint(){c.clearRect(0,0,300,600);c.fillStyle='#fffafd';c.fillRect(0,0,300,600);for(let y=0;y<H;y++)for(let x=0;x<W;x++){c.strokeStyle='#f3eaf0';c.strokeRect(x*S,y*S,S,S);if(grid[y][x])cell(grid[y][x],x,y,S)}if(p)for(let y=0;y<p.m.length;y++)for(let x=0;x<p.m[y].length;x++)if(p.m[y][x]&&p.y+y>=0)cell(colors[p.t],p.x+x,p.y+y,S)}
+function paintNext(){n.clearRect(0,0,88,76);let m=next.m,s=17,ox=(88-m[0].length*s)/2,oy=(76-m.length*s)/2;for(let y=0;y<m.length;y++)for(let x=0;x<m[y].length;x++)if(m[y][x]){n.fillStyle=colors[next.t];n.beginPath();n.roundRect(ox+x*s+1,oy+y*s+1,s-2,s-2,4);n.fill()}}
+function stats(){for(let [id,val] of Object.entries({score,best,level,lines}))document.querySelector('#'+id).textContent=val}
+function spawn(){p=next||pick();next=pick();paintNext();if(hit(p))finish()}
+function lock(){for(let y=0;y<p.m.length;y++)for(let x=0;x<p.m[y].length;x++)if(p.m[y][x]){let yy=p.y+y;if(yy<0){finish();return}grid[yy][p.x+x]=colors[p.t]}
+let count=0;for(let y=H-1;y>=0;){if(grid[y].every(Boolean)){grid.splice(y,1);grid.unshift(Array(W).fill(null));count++}else y--}
+if(count){lines+=count;score+=[0,100,300,500,800][count]*level;level=1+Math.floor(lines/10);if(score>best){best=score;try{localStorage.setItem('pastelBlocksBest',best)}catch(e){}}}stats();spawn()}
+function tick(t=0){if(!running||paused||ended)return;drop+=t-last;last=t;if(drop>Math.max(100,850-(level-1)*65)){if(!hit(p,0,1))p.y++;else lock();drop=0}paint();raf=requestAnimationFrame(tick)}
+function overlay(title,msg){let o=document.querySelector('#overlay');o.innerHTML='<strong>'+title+'</strong><span>'+msg+'</span>';o.classList.remove('hidden')}
+function hide(){document.querySelector('#overlay').classList.add('hidden')}
+function finish(){ended=true;running=false;cancelAnimationFrame(raf);scoreSubmitted=false;overlay('Game Over 🌸','Skor kamu '+score+' · Masukkan nama untuk papan peringkat!');const o=document.querySelector('#overlay');const form=document.createElement('div');form.className='gameover-form';const input=document.createElement('input');input.id='playerName';input.type='text';input.maxLength=20;input.autocomplete='nickname';input.placeholder='Nama pemain (maks. 20 karakter)';try{input.value=localStorage.getItem('pastelBlocksPlayerName')||''}catch(e){}const btn=document.createElement('button');btn.id='submitScore';btn.className='green';btn.textContent='Kirim skor 🏆';btn.onclick=submitScore;const status=document.createElement('small');status.id='saveStatus';status.className='save-status';status.textContent='';const note=document.createElement('small');note.textContent='Atau tekan Ulang untuk bermain lagi.';form.append(input,btn,status,note);o.append(form)}
+function reset(){cancelAnimationFrame(raf);grid=empty();bag=[];score=0;lines=0;level=1;ended=false;paused=false;running=false;next=pick();spawn();stats();paint();overlay('Siap bermain?','Tekan Mulai dan nikmati! 💗')}
+function start(){if(ended)reset();if(!running){running=true;paused=false;hide();last=0;raf=requestAnimationFrame(tick)}else if(paused){paused=false;hide();last=0;raf=requestAnimationFrame(tick)}}
+function pause(){if(!running||ended)return;paused=!paused;if(paused){cancelAnimationFrame(raf);overlay('Istirahat dulu ☁️','Tekan Jeda lagi untuk lanjut.')}else{hide();last=0;raf=requestAnimationFrame(tick)}}
+function move(dx,dy){if(!running||paused||ended)return;if(!hit(p,dx,dy)){p.x+=dx;p.y+=dy;paint()}else if(dy===1){lock();paint()}}
+function turn(){if(!running||paused||ended)return;let m=p.m[0].map((_,i)=>p.m.map(r=>r[i]).reverse());for(let k of [0,-1,1,-2,2])if(!hit(p,k,0,m)){p.m=m;p.x+=k;paint();break}}
+function soft(){if(!running||paused||ended)return;if(!hit(p,0,1)){p.y++;score++;stats()}else lock();paint()}
+function hard(){if(!running||paused||ended)return;let d=0;while(!hit(p,0,1)){p.y++;d++}score+=d*2;stats();lock();paint()}
+function hold(id,fn,ms=110){let el=document.getElementById(id),timer;const stop=()=>{clearInterval(timer);timer=null};el.addEventListener('pointerdown',e=>{e.preventDefault();fn();stop();timer=setInterval(fn,ms)});['pointerup','pointerleave','pointercancel'].forEach(ev=>el.addEventListener(ev,stop))}
+hold('left',()=>move(-1,0));hold('right',()=>move(1,0));hold('down',soft,65);document.querySelector('#rotate').onclick=turn;document.querySelector('#start').onclick=start;document.querySelector('#pause').onclick=pause;document.querySelector('#restart').onclick=reset;
+document.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowDown','ArrowUp',' '].includes(e.key))e.preventDefault();if(e.key==='ArrowLeft')move(-1,0);if(e.key==='ArrowRight')move(1,0);if(e.key==='ArrowDown')soft();if(e.key==='ArrowUp')turn();if(e.key===' ')hard();if(e.key.toLowerCase()==='p')pause()});
+let tx=0,ty=0;cv.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});cv.addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.abs(dx)>25)move(dx>0?1:-1,0);if(dy>25)soft();if(Math.abs(dx)<15&&Math.abs(dy)<15)turn()},{passive:true});reset();
+loadLeaderboard();
+})();
+</script></body></html>
